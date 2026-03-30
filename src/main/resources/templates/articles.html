@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link th:href="${/css/bootstrap.min.css}" rel="stylesheet" />
+    <script th:src="${/js/bootstrap.min.js}"></script>
+  </head>
+  <body>
+    <a th:href="@{/add}">Add New Article</a>
+    <div class="max-w-2xl mx-auto">
+      <table class="table-auto table w-full">
+        <thead class="table-header-group">
+          <tr class="table-row">
+            <td class="table-cell text-left">id</td>
+            <td class="table-cell text-left">brand</td>
+            <td class="table-cell text-left">description</td>
+            <td class="table-cell text-left">price</td>
+          </tr>
+        </thead>
+        <tbody class="table-row-group">
+          <tr class="table-row" th:each="article: ${articles}">
+            <td class="table-cell text-left" th:text="${article.id}" />
+            <td class="table-cell text-left" th:text="${article.brand}" />
+            <td class="table-cell text-left" th:text="${article.description}" />
+            <td class="table-cell text-left" th:text="${article.price}" />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
