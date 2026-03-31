@@ -8,11 +8,21 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <a th:href="@{/add}" class="card-heading">Add New Article</a>
+    <a th:href="@{/add}">Add New Article</a>
     <div class="container">
-      <div class="card card-primary">
-        <div class="card-heading">Article list</div>
+      <div class="card">
         <div class="card-body">
+          <div class="card-title">Article list</div>
+          <form th:action="@{/}" method="get">
+            <label for="searchInput" class="card-subtitle">Search</label>
+            <input
+              id="searchInput"
+              type="text"
+              name="search"
+              th:value="${search}"
+            />
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
           <table class="table">
             <tr>
               <th>id</th>
@@ -25,12 +35,20 @@
               <td th:text="${article.brand}" />
               <td th:text="${article.description}" />
               <td th:text="${article.price}" />
+              <td>
+                <a
+                  th:href="@{/delete(id=${article.id}, page=${currentPage}, search=${search})}"
+                  class="btn btn-danger"
+                  method="delete"
+                  >Delete</a
+                >
+              </td>
             </tr>
           </table>
           <ul class="nav nav-pills">
             <li th:each="page, status: ${pages}" th:class="nav-item">
               <a
-                th:href="@{/?(page=${status.index})}"
+                th:href="@{/?(page=${status.index},search=${search})}"
                 th:text="${status.index}"
                 th:class="${currentPage==status.index}?'nav-link active':'nav-link'"
               />

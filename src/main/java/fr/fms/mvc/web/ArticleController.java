@@ -19,11 +19,13 @@ public class ArticleController {
     private ArticleRepository articleRepository;
 
     @GetMapping("/")
-    public String articles(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        Page<Article> articles = articleRepository.findAll(PageRequest.of(page, 5));
+    public String articles(@RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "search", defaultValue = "") String search, Model model) {
+        Page<Article> articles = articleRepository.findByDescriptionContains(search, PageRequest.of(page, 5));
         model.addAttribute("pages", new int[articles.getTotalPages()]);
         model.addAttribute("articles", articles.getContent());
         model.addAttribute("currentPage", page);
+        model.addAttribute("search", search);
         return "articles";
     }
 
@@ -36,6 +38,12 @@ public class ArticleController {
     public String addArticle(Article article) {
         articleRepository.save(article);
         return "redirect:/";
+    }
+
+    @GetMapping("/delete")
+    public String delete(Long id, int page, String search) {
+        articleRepository.deleteById(id);
+        return "redirect:/?page=" + page + "&search=" + search;
     }
 
 }
