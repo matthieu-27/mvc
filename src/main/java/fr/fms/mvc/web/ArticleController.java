@@ -23,6 +23,7 @@ public class ArticleController {
         Page<Article> articles = articleRepository.findAll(PageRequest.of(page, 5));
         model.addAttribute("pages", new int[articles.getTotalPages()]);
         model.addAttribute("articles", articles.getContent());
+        model.addAttribute("currentPage", page);
         return "articles";
     }
 
