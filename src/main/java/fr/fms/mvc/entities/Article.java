@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,8 +26,14 @@ public class Article implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+
+  @NotBlank(message = "Brand must not be blank.")
   private String brand;
+
+  @NotBlank(message = "Description must not be blank.")
   private String description;
+
+  @DecimalMin(value = "1", message = "Please enter a positive price.")
   private double price;
 
   // #region Constructors
