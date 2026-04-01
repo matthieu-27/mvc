@@ -9,11 +9,32 @@
   </head>
   <body>
     <div layout:fragment="content">
-      <a th:href="@{/add}">Add New Article</a>
-      <div class="container">
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">Article list</div>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Navbar</a>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav" th:each="category : ${categories}">
+              <li class="nav-item">
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="#"
+                  th:text="${category.name}"
+                  >...</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+      <div class="card">
+        <div class="card-body">
+          <div
+            class="card-title d-flex w-100 justify-content-between align-items-center"
+          >
+            <span>Article list</span>
             <form th:action="@{/}" method="get">
               <label for="searchInput" class="card-subtitle">Search</label>
               <input
@@ -24,38 +45,40 @@
               />
               <button type="submit" class="btn btn-primary">Search</button>
             </form>
-            <table class="table">
-              <tr>
-                <th>id</th>
-                <th>brand</th>
-                <th>description</th>
-                <th>price</th>
-              </tr>
-              <tr th:each="article: ${articles}">
-                <td th:text="${article.id}" />
-                <td th:text="${article.brand}" />
-                <td th:text="${article.description}" />
-                <td th:text="${article.price}" />
-                <td>
-                  <a
-                    th:href="@{/delete(id=${article.id}, page=${currentPage}, search=${search})}"
-                    class="btn btn-danger"
-                    method="delete"
-                    >Delete</a
-                  >
-                </td>
-              </tr>
-            </table>
-            <ul class="nav nav-pills">
-              <li th:each="page, status: ${pages}" th:class="nav-item">
-                <a
-                  th:href="@{/?(page=${status.index},search=${search})}"
-                  th:text="${status.index}"
-                  th:class="${currentPage==status.index}?'nav-link active':'nav-link'"
-                />
-              </li>
-            </ul>
           </div>
+
+          <table class="table">
+            <tr>
+              <th>id</th>
+              <th>brand</th>
+              <th>description</th>
+              <th>price</th>
+              <th>delete</th>
+            </tr>
+            <tr th:each="article: ${articles}">
+              <td th:text="${article.id}" />
+              <td th:text="${article.brand}" />
+              <td th:text="${article.description}" />
+              <td th:text="${article.price}" />
+              <td>
+                <a
+                  th:href="@{/delete(id=${article.id}, page=${currentPage}, search=${search})}"
+                  class="btn btn-danger"
+                  method="delete"
+                  >Delete</a
+                >
+              </td>
+            </tr>
+          </table>
+          <ul class="nav nav-pills">
+            <li th:each="page, status: ${pages}" th:class="nav-item">
+              <a
+                th:href="@{/?(page=${status.index},search=${search})}"
+                th:text="${status.index}"
+                th:class="${currentPage==status.index}?'nav-link active':'nav-link'"
+              />
+            </li>
+          </ul>
         </div>
       </div>
     </div>

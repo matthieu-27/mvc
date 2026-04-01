@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.fms.mvc.dao.ArticleRepository;
+import fr.fms.mvc.dao.CategoryRepository;
 import fr.fms.mvc.entities.Article;
+import fr.fms.mvc.entities.Category;
 import jakarta.validation.Valid;
 
 @Controller
@@ -24,12 +26,19 @@ public class ArticleController {
     @Autowired
     private ArticleRepository articleRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @GetMapping("/")
     public String articles(@RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(name = "search", defaultValue = "") String search, Model model) {
-        Page<Article> articles = articleRepository.findByDescriptionContains(search, PageRequest.of(page, 5));
+            @RequestParam(name = "search", defaultValue = "") String search,
+            @RequestParam(name = "category", defaultValue = "0") String category, Model model) {
+        Page<Article> articles = articleRepository.findByDescriptionContains(search, PageRequest.of(page, 8));
+        List<Category> categories = categoryRepository.findAll();
+
         model.addAttribute("pages", new int[articles.getTotalPages()]);
         model.addAttribute("articles", articles.getContent());
+        model.addAttribute("categories", categories);
         model.addAttribute("currentPage", page);
         model.addAttribute("search", search);
         return "articles";

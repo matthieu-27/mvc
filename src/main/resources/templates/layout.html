@@ -11,6 +11,9 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
   </head>
   <body>
-    <div layout:fragment="content"></div>
+    <div class="container">
+      <header th:insert="navbar.html :: navbar" class="mb-3"></header>
+      <div layout:fragment="content"></div>
+    </div>
   </body>
 </html>
