@@ -36,7 +36,8 @@ public class ArticleController {
     }
 
     @GetMapping("/add")
-    public String showAddForm(Article article) {
+    public String showAddForm(Model model) {
+        model.addAttribute("article", new Article());
         return "add-article";
     }
 

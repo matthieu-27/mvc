@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,9 @@ public class Article implements Serializable {
 
   @DecimalMin(value = "1", message = "Please enter a positive price.")
   private double price;
+
+  @ManyToOne
+  private Category category;
 
   // #region Constructors
 
@@ -80,6 +84,14 @@ public class Article implements Serializable {
 
   public void setPrice(double value) {
     this.price = value;
+  }
+
+  public Category getCategory() {
+    return this.category;
+  }
+
+  public void setCategory(Category category) {
+    this.category = category;
   }
 
   // #endregion
