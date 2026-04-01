@@ -48,6 +48,13 @@ public class Article implements Serializable {
     this.price = price;
   }
 
+  public Article(String brand, String description, double price, Category category) {
+    this.brand = brand;
+    this.description = description;
+    this.price = price;
+    this.category = category;
+  }
+
   // #endregion
 
   @Override
