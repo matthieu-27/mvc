@@ -2,6 +2,8 @@ package fr.fms.mvc.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,12 +34,25 @@ public class ArticleController {
     @GetMapping("/")
     public String articles(@RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "search", defaultValue = "") String search,
-            @RequestParam(name = "category", defaultValue = "0") String category, Model model) {
-        Page<Article> articles = articleRepository.findByDescriptionContains(search, PageRequest.of(page, 8));
+            @RequestParam(name = "category", defaultValue = "0") Long category, Model model) {
+        Optional<Category> categoryOpt = categoryRepository.findById(category);
         List<Category> categories = categoryRepository.findAll();
+        if (Objects.equals(category, Long.valueOf("0"))) {
+            Page<Article> articles = articleRepository.findByDescriptionContains(search, PageRequest.of(page, 8));
 
-        model.addAttribute("pages", new int[articles.getTotalPages()]);
-        model.addAttribute("articles", articles.getContent());
+            model.addAttribute("pages", new int[articles.getTotalPages()]);
+            model.addAttribute("articles", articles.getContent());
+        } else {
+            if (categoryOpt.isPresent()) {
+                Category selectedCategory = categoryOpt.get();
+                Page<Article> articles = articleRepository.findByCategoryAndDescriptionContains(selectedCategory,
+                        search,
+                        PageRequest.of(page, 8));
+                model.addAttribute("pages", new int[articles.getTotalPages()]);
+                model.addAttribute("articles", articles.getContent());
+            }
+        }
+
         model.addAttribute("categories", categories);
         model.addAttribute("currentPage", page);
         model.addAttribute("search", search);
@@ -46,7 +61,9 @@ public class ArticleController {
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
+        List<Category> categories = categoryRepository.findAll();
         model.addAttribute("article", new Article());
+        model.addAttribute("categories", categories);
         return "add-article";
     }
 

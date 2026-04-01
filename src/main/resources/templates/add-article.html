@@ -46,6 +46,20 @@
                   class="form-control"
                 />
               </div>
+              <div class="form-group">
+                <label for="category" class="form-label">Category:</label>
+                <select
+                  id="category"
+                  class="form-select"
+                  aria-label="Select a category"
+                >
+                  <option
+                    th:each="category, status : ${categories}"
+                    th:text="${category.name}"
+                    value="status.count"
+                  />
+                </select>
+              </div>
               <ul th:each="error : ${errors}">
                 <li th:text="${error}"></li>
               </ul>

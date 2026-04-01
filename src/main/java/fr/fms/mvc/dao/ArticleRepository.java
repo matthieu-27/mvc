@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import fr.fms.mvc.entities.Article;
+import fr.fms.mvc.entities.Category;
 
 @Repository
 public interface ArticleRepository extends JpaRepository<Article, Long> {
@@ -22,5 +23,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     public List<Article> findByBrandContainsAndPriceGreaterThan(String brand, double price);
 
     public Page<Article> findByDescriptionContains(String description, Pageable page);
+
+    public Page<Article> findByCategoryAndDescriptionContains(Category category, String description, Pageable page);
 
 }
