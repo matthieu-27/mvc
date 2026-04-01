@@ -56,7 +56,7 @@
                   <option
                     th:each="category, status : ${categories}"
                     th:text="${category.name}"
-                    value="status.count"
+                    th:value="${status.count}"
                   />
                 </select>
               </div>
