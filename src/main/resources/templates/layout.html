@@ -12,7 +12,7 @@
   </head>
   <body>
     <div class="container">
-      <header th:insert="navbar.html :: navbar" class="mb-3"></header>
+      <header th:insert="~{navbar.html :: navbar}" class="mb-3"></header>
       <div layout:fragment="content"></div>
     </div>
   </body>
