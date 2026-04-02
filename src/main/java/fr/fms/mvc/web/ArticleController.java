@@ -45,7 +45,8 @@ public class ArticleController {
         } else {
             if (categoryOpt.isPresent()) {
                 Category selectedCategory = categoryOpt.get();
-                Page<Article> articles = articleRepository.findByCategoryAndDescriptionContains(selectedCategory,
+                Page<Article> articles = articleRepository.findByCategoryIdAndDescriptionContains(
+                        selectedCategory.getId(),
                         search,
                         PageRequest.of(page, 8));
                 model.addAttribute("pages", new int[articles.getTotalPages()]);
